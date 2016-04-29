@@ -15,7 +15,7 @@ setup(name='blca',
 			include_package_data=True,
 			package_data={},
 			install_requires=[
-				'biopython', 'pyyaml',
+				'biopython', 'pyyaml', 'yaml',
 			],
 			test_suite='nose.collector',
 			tests_require=['nose'],
