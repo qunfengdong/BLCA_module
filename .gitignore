@@ -1,3 +1,6 @@
+## hidden files
+.idea/
+
 # Compiled python modules
 *.pyc
 

@@ -13,9 +13,9 @@ setup(name='blca',
 			license='MIT',
 			packages=['blca'],
 			include_package_data=True,
-			package_data={}
+			package_data={},
 			install_requires=[
-				'biopython', 'pyyaml'
+				'biopython', 'pyyaml',
 			],
 			test_suite='nose.collector',
 			tests_require=['nose'],
