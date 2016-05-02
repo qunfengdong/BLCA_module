@@ -20,7 +20,7 @@ OUTFILE = '16SMicrobial_150.V4.subsample3.fasta.annotation'
 
 ## BLAST parameters
 BLAST_BINARY = 'data/ncbi-blast-2.3.0+/bin'
-BLAST_DATABASE = 'data/16SMicrobial/16SMicrobial'
+BLAST_DATABASE = 'data/16SMicrobial'
 BLAST_CUTOFF_SCORE = 100
 BLAST_CUTOFF_PERCENT = 10
 BLAST_COVERAGE = 95
