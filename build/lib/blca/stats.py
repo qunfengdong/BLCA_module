@@ -3,6 +3,7 @@ import os
 import sys
 import itertools
 from .helpers import *
+from .settings import *
 from Bio import SeqIO
 
 def setup_query(seq):
@@ -37,13 +38,13 @@ def compute_score(seq1, seq2):
 		if ((seq1[i] == "#") or (seq2[i] == "#")):
 			score += 0
 		if ((seq1[i] == "-") or (seq2[i] == "-")):
-			score += -2.5
+			score += ALIGNMENT_GAP
 		elif (seq1[i] != seq2[i]):
-			score += -2
+			score += ALIGNMENT_MISMATCH
 		elif ((seq1[i] == "-") and (seq2[i] == "-")):
 			score += 0
 		elif (seq1[i] == seq2[i]):
-			score += 1
+			score += ALIGNMENT_MATCH
 	return score
 
 def calculate_prob(seqsdic, query, queryseq):
@@ -63,8 +64,8 @@ def calculate_prob(seqsdic, query, queryseq):
 		scoredic[seqid]['prob'] = prob
 	return scoredic
 
-def compute_pairwise_file(alignfile, query):
-	data = yaml_load_file('storage.yaml')
+def compute_pairwise_file(filename, alignfile, query):
+	data = yaml_load_file(filename)
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -73,7 +74,7 @@ def compute_pairwise_file(alignfile, query):
 	#print(">>", seqsdic)
 	queryseq = setup_query(seqsdic[query])
 	data[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
-	yaml_dump_file(data)
+	yaml_dump_file(filename, data)
 
 def transpose_file(infile, outfile):
 	indata = open(infile, "r").read()
@@ -119,12 +120,12 @@ def prob_highest(scoredic):
 			toppro = scoredic[hitid]['prob']
 	return tophit
 
-def update_bootstrap(confidence, qid):
-	data = yaml_load_file('storage.yaml')
+def update_bootstrap(fastafile, confidence, qid):
+	data = yaml_load_file(fastafile)
 	data[qid]['bootstrap'] = confidence
-	yaml_dump_file(data)
+	yaml_dump_file(fastafile, data)
 
-def bootstrap_muscle_alignment(alignfile, query):
+def bootstrap_muscle_alignment(fastafile, alignfile, query):
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -133,11 +134,9 @@ def bootstrap_muscle_alignment(alignfile, query):
 	queryseq, querystart, queryend = setup_query_pos(seqsdic[query])
 	queryregion = queryend - querystart + 1
 
-
 	bootstrap_confidence = {}
-	bootstrap_number = 100
 
-	for i in range(bootstrap_number):
+	for i in range(BOOTSTRAP):
 		fh = open("tmp_"+str(i), "w")
 		for seqid in seqsdic:
 			fh.write(str(seqsdic[seqid][querystart:queryend+1]) + "XXXXX" + seqid.ljust(100) + "\n")
@@ -165,16 +164,16 @@ def bootstrap_muscle_alignment(alignfile, query):
 		os.remove("tmp_"+str(i) + "_t_s_t")
 		#break
 	#print(bootstrap_confidence)
-	update_bootstrap(bootstrap_confidence, query)
+	update_bootstrap(fastafile, bootstrap_confidence, query)
 
-def compute():
-	yamlfile = yaml_load_file('storage.yaml')
+def compute(fastafile):
+	yamlfile = yaml_load_file(fastafile)
 	tot = len(yamlfile.keys())
 	count = 1
 	for seqid in yamlfile:
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
 		count += 1
-		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
-		bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
+		compute_pairwise_file(fastafile, "multi_" + seqid + ".fasta.maln", seqid )
+		bootstrap_muscle_alignment(fastafile, "multi_" + seqid + ".fasta.maln", seqid )
 		sys.stdout.flush()

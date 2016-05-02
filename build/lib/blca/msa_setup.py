@@ -1,12 +1,13 @@
 import os
 import sys
 from .helpers import *
+from .settings import *
 from Bio import SearchIO
 from Bio import SeqIO
 from Bio.Align.Applications import MuscleCommandline as muscle
 
 def get_hit_seq(fastafile, filename):
-	yamlfile = yaml_load_file('storage.yaml')
+	yamlfile = yaml_load_file(fastafile)
 	blout = SearchIO.parse(filename, 'blast-text')
 	for query in blout:
 		seqid = query.id.split("\n")[0]
@@ -22,22 +23,22 @@ def get_hit_seq(fastafile, filename):
 				#print(hsp.hit_strand)
 				#print(hsp.hit_start)
 				#print(hsp.hit_end)
-				hitstart = hsp.hit_start + 1 - 10
+				hitstart = hsp.hit_start + 1 - HIT_SEQUENCE_BPS
 				hitstart = 1 if hitstart < 0 else hitstart
-				hitend = hsp.hit_end + 1 + 10
+				hitend = hsp.hit_end + 1 + HIT_SEQUENCE_BPS
 				hitstrand = "plus" if (hsp.hit_strand == 1) else "minus"
 				#print(hsp.hit_end)
-				out = os.popen("data/ncbi-blast-2.3.0+/bin/blastdbcmd -db data/16SMicrobial/16SMicrobial -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
+				out = os.popen(BLAST_BINARY + "/blastdbcmd -db " + BLAST_DATABASE + " -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
 				fh.write(out)
 				#print(hsp.hit.seq)
 				#print(hsp.query.seq)
 				#print("-----")
 		fh.close()
 		#break
-	yaml_dump_file(yamlfile)
+	yaml_dump_file(fastafile, yamlfile)
 
 def get_hit_seq_megan(fastafile, filename):
-	yamlfile = yaml_load_file('storage.yaml')
+	yamlfile = yaml_load_file(fastafile)
 	blout = SearchIO.parse(filename, 'blast-text')
 	for query in blout:
 		seqid = query.id.split("\n")[0]
@@ -45,6 +46,7 @@ def get_hit_seq_megan(fastafile, filename):
 		#print(seqid)
 		fh = open("multi_" + seqid + ".fasta", 'a')
 		yamlfile[seqid]['hits'] = {}
+		bcp = 1 - (BLAST_CUTOFF_PERCENT / 100)
 		topscore = 0
 		for hit in query.hits:
 			gi = re.match(r"gi\|(.*)\|ref", hit.id).group(1)
@@ -53,10 +55,10 @@ def get_hit_seq_megan(fastafile, filename):
 			for hsp in hit.hsps:
 				if topscore == 0:
 					topscore = hsp.bitscore
-				if hsp.bitscore < (topscore * 0.95):
+				if hsp.bitscore < (topscore * bcp):
 					#print(seqid, " not included: ", gi, " score: ", str(hsp.bitscore), " topscore: ", topscore)
 					continue
-				if hsp.bitscore < 100:
+				if hsp.bitscore < BLAST_CUTOFF_SCORE:
 					continue
 				#print(hsp.hit)
 				#print(hsp.hit_strand)
@@ -67,14 +69,14 @@ def get_hit_seq_megan(fastafile, filename):
 				hitend = hsp.hit_end + 1 + 10
 				hitstrand = "plus" if (hsp.hit_strand == 1) else "minus"
 				#print(hitstart, hitend)
-				out = os.popen("data/ncbi-blast-2.3.0+/bin/blastdbcmd -db data/16SMicrobial/16SMicrobial -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
+				out = os.popen(BLAST_BINARY + "/blastdbcmd -db " + BLAST_DATABASE + " -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
 				fh.write(out)
 				#print(hsp.hit.seq)
 				#print(hsp.query.seq)
 				#print("-----")
 		fh.close()
 		#break
-	yaml_dump_file(yamlfile)
+	yaml_dump_file(fastafile, yamlfile)
 
 def setup_msa(fastafile):
 	seqlist = {}
@@ -87,14 +89,14 @@ def setup_msa(fastafile):
 		fh.write(">" + seq.id + "\n")
 		fh.write(str(seq.seq) + "\n")
 		fh.close()
-	yaml_dump_file(seqlist)
+	yaml_dump_file(fastafile, seqlist)
 	#get_hit_seq(fastafile, fastafile + ".blout")
 	get_hit_seq_megan(fastafile, fastafile + ".blastn")
 	print("DONE: MSA input files generated.")
 	#return seqs
 
-def run_muscle():
-	yamlfile = yaml_load_file('storage.yaml')
+def run_muscle(filename):
+	yamlfile = yaml_load_file(filename)
 	tot = len(yamlfile.keys())
 	count = 1
 	for seqid in yamlfile:
@@ -103,6 +105,6 @@ def run_muscle():
 		count += 1
 		filename= "multi_" + seqid + ".fasta"
 		outfile = filename + ".maln"
-		muscle_cline = muscle(input=filename, out=outfile)()
+		muscle_cline = muscle(cmd=MUSCLE_BINARY, input=filename, out=outfile)()
 		#print(outfile)
 		sys.stdout.flush()

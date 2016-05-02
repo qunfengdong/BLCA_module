@@ -155,7 +155,7 @@ def validate(filename):
 				if rdp[taxa] == orig[taxa]:
 					count_rdp += 1
 
-			#if taxa == 'species':
+			#if taxa == 'family':
 			#	validate_print(taxa, orig, blca, megan, rdp, count_blca, count_megan, count_rdp)
 
 		fh.close()

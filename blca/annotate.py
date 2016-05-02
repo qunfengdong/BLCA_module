@@ -1,14 +1,17 @@
 import subprocess
+import os
 from .helpers import *
 
 def read_yaml(filename):
+	this_dir, this_filename = os.path.split(__file__)
+	datadir = os.path.abspath(os.path.join(this_dir, os.pardir))
 	read_data = yaml_load_file(filename)
 	#print("Loading: storage")
-	read_taxid = yaml_load('data/subset/subset_gi_taxid.yaml')
+	read_taxid = yaml_load(datadir + '/data/subset_gi_taxid.yaml')
 	#print("Loading: gi_taxid")
-	read_names = yaml_load('data/subset/subset_names.yaml')
+	read_names = yaml_load(datadir + '/data/subset_names.yaml')
 	#print("Loading: names")
-	read_nodes = yaml_load('data/subset/subset_nodes.yaml')
+	read_nodes = yaml_load(datadir + '/data/subset_nodes.yaml')
 	#print("Loading: nodes")
 	#print("=========================")
 	return read_data, read_taxid, read_names, read_nodes
@@ -118,7 +121,7 @@ def annotate(filename):
 	:return:
 	'''
 	diclin = {}
-	read_data, read_taxid, read_names, read_nodes = read_yaml()
+	read_data, read_taxid, read_names, read_nodes = read_yaml(filename)
 	for seq_id in read_data:
 		diclin[seq_id] = {}
 		for gi in read_data[seq_id]['bootstrap'].keys():
