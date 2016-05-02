@@ -1,7 +1,7 @@
 from setuptools import setup
 
 def readme():
-	with open("README.rst") as f:
+	with open("README.md") as f:
 		return f.read()
 
 setup(name='blca',
@@ -14,7 +14,7 @@ setup(name='blca',
 			packages=['blca'],
 			include_package_data=True,
 			package_data={},
-			scripts=['runblca.py'],
+			scripts=['bin/runblca.py'],
 			install_requires=[
 				'biopython', 'pyyaml',
 			],
