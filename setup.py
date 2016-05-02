@@ -14,7 +14,7 @@ setup(name='blca',
 			packages=['blca'],
 			include_package_data=True,
 			package_data={},
-			scripts=['blca.py'],
+			scripts=['runblca.py'],
 			install_requires=[
 				'biopython', 'pyyaml',
 			],
