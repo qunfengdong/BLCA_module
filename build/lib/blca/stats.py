@@ -155,9 +155,9 @@ def bootstrap_muscle_alignment(alignfile, query):
 		#print(hitid)
 		for hid in hitid:
 			if hid in bootstrap_confidence:
-				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/bootstrap_number)
+				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/BOOTSTRAP)
 			else:
-				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/bootstrap_number)
+				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/BOOTSTRAP)
 		os.remove("tmp_"+str(i))
 		os.remove("tmp_"+str(i) + "_t")
 		os.remove("tmp_"+str(i) + "_t_s")
