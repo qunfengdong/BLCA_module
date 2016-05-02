@@ -7,5 +7,5 @@ def main():
 	blca.compute()
 	blca.annotate()
 
-if __name-- == "__main__":
+if __name__ == "__main__":
 	main()

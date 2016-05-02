@@ -3,7 +3,7 @@ import os
 import sys
 import itertools
 from .helpers import *
-from .settings import *
+from config import *
 from Bio import SeqIO
 
 def setup_query(seq):
@@ -64,8 +64,8 @@ def calculate_prob(seqsdic, query, queryseq):
 		scoredic[seqid]['prob'] = prob
 	return scoredic
 
-def compute_pairwise_file(filename, alignfile, query):
-	data = yaml_load_file(filename)
+def compute_pairwise_file(alignfile, query):
+	data = yaml_load_file()
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -74,7 +74,7 @@ def compute_pairwise_file(filename, alignfile, query):
 	#print(">>", seqsdic)
 	queryseq = setup_query(seqsdic[query])
 	data[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
-	yaml_dump_file(filename, data)
+	yaml_dump_file(data)
 
 def transpose_file(infile, outfile):
 	indata = open(infile, "r").read()
@@ -120,12 +120,12 @@ def prob_highest(scoredic):
 			toppro = scoredic[hitid]['prob']
 	return tophit
 
-def update_bootstrap(fastafile, confidence, qid):
-	data = yaml_load_file(fastafile)
+def update_bootstrap(confidence, qid):
+	data = yaml_load_file()
 	data[qid]['bootstrap'] = confidence
-	yaml_dump_file(fastafile, data)
+	yaml_dump_file(data)
 
-def bootstrap_muscle_alignment(fastafile, alignfile, query):
+def bootstrap_muscle_alignment(alignfile, query):
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -164,16 +164,16 @@ def bootstrap_muscle_alignment(fastafile, alignfile, query):
 		os.remove("tmp_"+str(i) + "_t_s_t")
 		#break
 	#print(bootstrap_confidence)
-	update_bootstrap(fastafile, bootstrap_confidence, query)
+	update_bootstrap(bootstrap_confidence, query)
 
-def compute(fastafile):
-	yamlfile = yaml_load_file(fastafile)
+def compute():
+	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
 	count = 1
 	for seqid in yamlfile:
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
 		count += 1
-		compute_pairwise_file(fastafile, "multi_" + seqid + ".fasta.maln", seqid )
-		bootstrap_muscle_alignment(fastafile, "multi_" + seqid + ".fasta.maln", seqid )
+		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
+		bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		sys.stdout.flush()

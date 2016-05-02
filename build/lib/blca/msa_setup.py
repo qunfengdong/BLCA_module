@@ -1,7 +1,7 @@
 import os
 import sys
 from .helpers import *
-from .settings import *
+from config import *
 from Bio import SearchIO
 from Bio import SeqIO
 from Bio.Align.Applications import MuscleCommandline as muscle
@@ -37,8 +37,8 @@ def get_hit_seq(fastafile, filename):
 		#break
 	yaml_dump_file(fastafile, yamlfile)
 
-def get_hit_seq_megan(fastafile, filename):
-	yamlfile = yaml_load_file(fastafile)
+def get_hit_seq_megan(filename):
+	yamlfile = yaml_load_file()
 	blout = SearchIO.parse(filename, 'blast-text')
 	for query in blout:
 		seqid = query.id.split("\n")[0]
@@ -76,27 +76,27 @@ def get_hit_seq_megan(fastafile, filename):
 				#print("-----")
 		fh.close()
 		#break
-	yaml_dump_file(fastafile, yamlfile)
+	yaml_dump_file(yamlfile)
 
-def setup_msa(fastafile):
+def setup_msa():
 	seqlist = {}
 	#seqs = []
 	print("INFO: Creating MSA input files")
-	for seq in SeqIO.parse(fastafile, "fasta"):
+	for seq in SeqIO.parse(FILENAME, "fasta"):
 		#seqs.append(seq.id)
 		seqlist[seq.id] = {}
 		fh = open("multi_" + seq.id + ".fasta", 'w')
 		fh.write(">" + seq.id + "\n")
 		fh.write(str(seq.seq) + "\n")
 		fh.close()
-	yaml_dump_file(fastafile, seqlist)
+	yaml_dump_file(seqlist)
 	#get_hit_seq(fastafile, fastafile + ".blout")
-	get_hit_seq_megan(fastafile, fastafile + ".blastn")
+	get_hit_seq_megan(FILENAME + ".blastn")
 	print("DONE: MSA input files generated.")
 	#return seqs
 
-def run_muscle(filename):
-	yamlfile = yaml_load_file(filename)
+def run_muscle():
+	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
 	count = 1
 	for seqid in yamlfile:
