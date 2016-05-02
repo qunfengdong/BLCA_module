@@ -1,14 +1,14 @@
 import subprocess
 from .helpers import *
 
-def read_yaml():
-	read_data = yaml_load_file('storage.yaml')
+def read_yaml(filename):
+	read_data = yaml_load_file(filename)
 	#print("Loading: storage")
-	read_taxid = yaml_load_file('data/subset/subset_gi_taxid.yaml')
+	read_taxid = yaml_load('data/subset/subset_gi_taxid.yaml')
 	#print("Loading: gi_taxid")
-	read_names = yaml_load_file('data/subset/subset_names.yaml')
+	read_names = yaml_load('data/subset/subset_names.yaml')
 	#print("Loading: names")
-	read_nodes = yaml_load_file('data/subset/subset_nodes.yaml')
+	read_nodes = yaml_load('data/subset/subset_nodes.yaml')
 	#print("Loading: nodes")
 	#print("=========================")
 	return read_data, read_taxid, read_names, read_nodes
@@ -172,7 +172,7 @@ def annotate(filename):
 
 def annotate_megan_blca_rdp(filename):
 	diclin = {}
-	read_data, read_taxid, read_names, read_nodes = read_yaml()
+	read_data, read_taxid, read_names, read_nodes = read_yaml(filename)
 	for seq_id in read_data:
 		diclin[seq_id] = {}
 		for gi in read_data[seq_id]['bootstrap'].keys():
