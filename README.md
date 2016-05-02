@@ -41,7 +41,7 @@ BOOTSTRAP = 100
 
 ## Run BLCA
 Run BLCA in another file
-```
+```python
 import blca
 import config
 
