@@ -1,7 +1,14 @@
 import subprocess
 import os
 from .helpers import *
-#from config import *
+import importlib
+from importlib.machinery import SourceFileLoader
+try:
+	my_module = importlib.import_module('config')
+except:
+	this_dir, this_filename = os.path.split(__file__)
+	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
+
 
 def read_yaml():
 	this_dir, this_filename = os.path.split(__file__)

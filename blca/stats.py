@@ -3,8 +3,14 @@ import os
 import sys
 import itertools
 from .helpers import *
-#from config import *
 from Bio import SeqIO
+import importlib
+from importlib.machinery import SourceFileLoader
+try:
+	my_module = importlib.import_module('config')
+except:
+	this_dir, this_filename = os.path.split(__file__)
+	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
 
 def setup_query(seq):
 	for i in range(len(seq)):
@@ -38,13 +44,13 @@ def compute_score(seq1, seq2):
 		if ((seq1[i] == "#") or (seq2[i] == "#")):
 			score += 0
 		if ((seq1[i] == "-") or (seq2[i] == "-")):
-			score += ALIGNMENT_GAP
+			score += my_module.ALIGNMENT_GAP
 		elif (seq1[i] != seq2[i]):
-			score += ALIGNMENT_MISMATCH
+			score += my_module.ALIGNMENT_MISMATCH
 		elif ((seq1[i] == "-") and (seq2[i] == "-")):
 			score += 0
 		elif (seq1[i] == seq2[i]):
-			score += ALIGNMENT_MATCH
+			score += my_module.ALIGNMENT_MATCH
 	return score
 
 def calculate_prob(seqsdic, query, queryseq):
@@ -136,7 +142,7 @@ def bootstrap_muscle_alignment(alignfile, query):
 
 	bootstrap_confidence = {}
 
-	for i in range(BOOTSTRAP):
+	for i in range(my_module.BOOTSTRAP):
 		fh = open("tmp_"+str(i), "w")
 		for seqid in seqsdic:
 			fh.write(str(seqsdic[seqid][querystart:queryend+1]) + "XXXXX" + seqid.ljust(100) + "\n")
@@ -155,9 +161,9 @@ def bootstrap_muscle_alignment(alignfile, query):
 		#print(hitid)
 		for hid in hitid:
 			if hid in bootstrap_confidence:
-				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/BOOTSTRAP)
+				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
 			else:
-				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/BOOTSTRAP)
+				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
 		os.remove("tmp_"+str(i))
 		os.remove("tmp_"+str(i) + "_t")
 		os.remove("tmp_"+str(i) + "_t_s")

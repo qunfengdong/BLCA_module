@@ -1,14 +1,20 @@
 import re
 import yaml
-#from config import *
+import importlib
+from importlib.machinery import SourceFileLoader
+try:
+	my_module = importlib.import_module('config')
+except:
+	this_dir, this_filename = os.path.split(__file__)
+	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
 
 def yaml_dump_file(data):
-	stream = open(FILENAME + '.yaml', 'w')
+	stream = open(my_module.FILENAME + '.yaml', 'w')
 	yaml.dump(data, stream)
 	stream.close()
 
 def yaml_load_file():
-	stream = open(FILENAME + '.yaml')
+	stream = open(my_module.FILENAME + '.yaml')
 	data = yaml.safe_load(stream)
 	stream.close()
 	return data

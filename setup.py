@@ -13,7 +13,7 @@ setup(name='blca',
 			license='MIT',
 			packages=['blca'],
 			include_package_data=True,
-			package_data={},
+			package_data={'blca': ['data/*.yaml']},
 			scripts=['bin/runblca.py'],
 			install_requires=[
 				'biopython', 'pyyaml',
