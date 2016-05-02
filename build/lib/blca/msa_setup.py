@@ -1,7 +1,7 @@
 import os
 import sys
 from .helpers import *
-from config import *
+#from config import *
 from Bio import SearchIO
 from Bio import SeqIO
 from Bio.Align.Applications import MuscleCommandline as muscle

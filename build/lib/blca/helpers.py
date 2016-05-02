@@ -1,6 +1,6 @@
 import re
 import yaml
-from config import *
+#from config import *
 
 def yaml_dump_file(data):
 	stream = open(FILENAME + '.yaml', 'w')

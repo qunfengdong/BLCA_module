@@ -1,6 +1,6 @@
 import os
 from Bio.Blast.Applications import NcbiblastnCommandline as blastn
-from config import *
+#from config import *
 
 def blast_seq():
 	outfile = FILENAME + ".blastn"

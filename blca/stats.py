@@ -3,7 +3,7 @@ import os
 import sys
 import itertools
 from .helpers import *
-from config import *
+#from config import *
 from Bio import SeqIO
 
 def setup_query(seq):

@@ -1,7 +1,7 @@
 import subprocess
 import os
 from .helpers import *
-from config import *
+#from config import *
 
 def read_yaml():
 	this_dir, this_filename = os.path.split(__file__)
@@ -115,7 +115,7 @@ def read_rdp_output(filename):
 		ann[cols[0]] = cols[1]
 	return ann
 
-def annotate(filename):
+def annotate():
 	'''
 	latest
 	:param filename:
