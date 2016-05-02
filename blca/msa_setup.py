@@ -105,6 +105,7 @@ def run_muscle():
 	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
 	count = 1
+	print("INFO: Running MUSCLE for MSA")
 	for seqid in yamlfile:
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
@@ -114,3 +115,4 @@ def run_muscle():
 		muscle_cline = muscle(cmd=my_module.MUSCLE_BINARY, input=filename, out=outfile)()
 		#print(outfile)
 		sys.stdout.flush()
+	print("DONE: MSA complete.")

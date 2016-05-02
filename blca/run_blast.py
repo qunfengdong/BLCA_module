@@ -16,7 +16,7 @@ def blast_seq():
 		print("INFO: Verifying BLAST")
 		if(verify_blast(outfile)):
 			raise "BLAST output count is not equal to input sequence count"
-		print("INFO: BLAST complete")
+		print("DONE: BLAST complete")
 	except BaseException as e:
 		print("Unable to BLAST")
 		print(e)

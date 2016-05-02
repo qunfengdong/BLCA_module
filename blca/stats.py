@@ -176,6 +176,7 @@ def compute():
 	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
 	count = 1
+	print("INFO: Running BOOTSTRAP")
 	for seqid in yamlfile:
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
@@ -184,3 +185,4 @@ def compute():
 		bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		os.remove("multi_" + seqid + ".fasta.maln")
 		sys.stdout.flush()
+	print("DONE: BOOTSTRAP complete.")
