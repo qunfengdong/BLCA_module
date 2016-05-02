@@ -44,7 +44,9 @@ Run BLCA in another file
 ```python
 [terminal]$ python3
 >>> import blca
+>>> blca.info()
+
 >>> import config
->>> blca.runblca()
+>>> blca.execute()
 ```
 
