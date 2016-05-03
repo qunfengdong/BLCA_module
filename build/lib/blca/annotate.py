@@ -13,6 +13,7 @@ def read_yaml():
 	this_dir, this_filename = os.path.split(__file__)
 	datadir = os.path.abspath(os.path.join(this_dir, os.pardir))
 	read_data = yaml_load_file()
+	print("INFO: Loading taxonomy information.")
 	#print("Loading: storage")
 	read_taxid = yaml_load(datadir + '/blca/subset_gi_taxid.yaml')
 	#print("Loading: gi_taxid")
@@ -168,6 +169,7 @@ def annotate():
 				print("\t", name, "\t", round(con[taxa][name]['score'], 1))
 		print("---")
 		'''
+
 		for taxa in reversed(order):
 			print("\t", end='')
 

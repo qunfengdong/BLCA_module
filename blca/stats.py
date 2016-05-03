@@ -131,6 +131,9 @@ def update_bootstrap(confidence, qid):
 	data[qid]['bootstrap'] = confidence
 	yaml_dump_file(data)
 
+def bootstrap_muscle_alignment_new(alignfile, query):
+	print(alignfile)
+
 def bootstrap_muscle_alignment(alignfile, query):
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
@@ -181,8 +184,8 @@ def compute():
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
 		count += 1
-		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
+		#compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
 		bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
-		os.remove("multi_" + seqid + ".fasta.maln")
+		#os.remove("multi_" + seqid + ".fasta.maln")
 		sys.stdout.flush()
 	print("DONE: BOOTSTRAP complete.")
