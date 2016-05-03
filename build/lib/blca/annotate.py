@@ -131,13 +131,17 @@ def annotate():
 			diclin[seq_id][gi] = get_path_from_gi(gi, read_data[seq_id]['bootstrap'][gi], read_taxid, read_names, read_nodes)
 
 	order = ['organism', 'subspecies', 'species', 'genus', 'family', 'order', 'class', 'phylum', 'superkingdom']
-	print("\t" + "\t".join(reversed(order)))
+
+	outfile = open(my_module.OUTFILE, "w")
+	#print("\t" + "\t".join(reversed(order)))
+	outfile.write("\t" + "\t".join(reversed(order)) + "\n")
 	#ann = read_16s_annotation(read_names, read_nodes)
 	#megan = read_megan_output(filename)
 	#rdp = read_rdp_output(filename)
 
 	for seq_id in diclin:
-		print(seq_id, end='')
+		#print(seq_id, end='')
+		outfile.write(seq_id)
 		con = {}
 		for gi in diclin[seq_id]:
 			for taxa in order:
@@ -165,16 +169,20 @@ def annotate():
 		'''
 
 		for taxa in reversed(order):
-			print("\t", end='')
+			#print("\t", end='')
+			outfile.write("\t")
 
 			if (taxa in con) and con[taxa]:
 				#print(con[taxa])
 				name = max(con[taxa], key=lambda i: con[taxa][i])
 				if con[taxa][name] >= 0:
-					print(name + " (" + str(round(con[taxa][name])) + ")", end='')
+					#print(name + " (" + str(round(con[taxa][name])) + ")", end='')
+					outfile.write(name + " (" + str(round(con[taxa][name])) + ")")
 			else:
-				print('', end='')
-		print("")
+				#print('', end='')
+				outfile.write('')
+		#print("")
+		outfile.write("\n")
 
 
 def annotate_megan_blca_rdp(filename):
