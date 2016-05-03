@@ -6,7 +6,7 @@ def blast_seq():
 	outfile = my_module.FILENAME + ".blastn"
 	try:
 		print("INFO: Running BLAST")
-		blastn(cmd=my_module.BLAST_BINARY + "/blastn", query=my_module.FILENAME, db=my_module.BLAST_DATABASE, evalue=1e-20, out=outfile, show_gis="true", dust = 'no', soft_masking = "false", num_descriptions=5, num_alignments=5)()
+		blastn(cmd=my_module.BLAST_BINARY + "/blastn", query=my_module.FILENAME, db=my_module.BLAST_DATABASE, evalue=1e-20, out=outfile, show_gis="true", dust = 'no', soft_masking = "false", num_descriptions=500, num_alignments=500)()
 		print("INFO: Verifying BLAST")
 		if(verify_blast(outfile)):
 			raise "BLAST output count is not equal to input sequence count"

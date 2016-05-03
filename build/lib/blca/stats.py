@@ -65,8 +65,8 @@ def calculate_prob(seqsdic, query, queryseq):
 	#print(scoredic)
 	return scoredic
 
-def compute_pairwise_file(alignfile, query):
-	data = yaml_load_file()
+def compute_pairwise_file(yamlfile, alignfile, query):
+	#data = yaml_load_file()
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -74,8 +74,9 @@ def compute_pairwise_file(alignfile, query):
 	#print(">>", query)
 	#print(">>", seqsdic)
 	queryseq = setup_query(seqsdic[query])
-	data[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
-	yaml_dump_file(data)
+	#data[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
+	yamlfile[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
+	#yaml_dump_file(data)
 
 def transpose_file(infile, outfile):
 	indata = open(infile, "r").read()
@@ -121,12 +122,14 @@ def prob_highest(scoredic):
 			toppro = scoredic[hitid]['prob']
 	return tophit
 
-def update_bootstrap(confidence, qid):
-	data = yaml_load_file()
-	data[qid]['bootstrap'] = confidence
-	yaml_dump_file(data)
+def update_bootstrap(yamlfile, confidence, qid):
+	yamlfile[qid]['bootstrap'] = confidence
+	#data = yaml_load_file()
+	#data[qid]['bootstrap'] = confidence
+	#yaml_dump_file(data)
 
-def bootstrap_muscle_alignment_new(alignfile, query):
+
+def bootstrap_muscle_alignment_new(yamlfile, alignfile, query):
 	#print(alignfile)
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
@@ -153,7 +156,7 @@ def bootstrap_muscle_alignment_new(alignfile, query):
 			else:
 				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
 	#print(bootstrap_confidence)
-	update_bootstrap(bootstrap_confidence, query)
+	update_bootstrap(yamlfile, bootstrap_confidence, query)
 
 
 def randomizefile(bootdic, query):
@@ -221,9 +224,10 @@ def compute():
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
 		count += 1
-		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
-		bootstrap_muscle_alignment_new("multi_" + seqid + ".fasta.maln", seqid )
+		compute_pairwise_file(yamlfile, "multi_" + seqid + ".fasta.maln", seqid )
+		bootstrap_muscle_alignment_new(yamlfile, "multi_" + seqid + ".fasta.maln", seqid )
 		#bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		#os.remove("multi_" + seqid + ".fasta.maln")
 		sys.stdout.flush()
+	yaml_dump_file(yamlfile)
 	print("DONE: BOOTSTRAP complete.")

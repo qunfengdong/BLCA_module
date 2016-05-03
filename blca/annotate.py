@@ -167,7 +167,8 @@ def annotate():
 		for taxa in reversed(order):
 			print("\t", end='')
 
-			if con[taxa]:
+			if (taxa in con) and con[taxa]:
+				#print(con[taxa])
 				name = max(con[taxa], key=lambda i: con[taxa][i])
 				if con[taxa][name] >= 0:
 					print(name + " (" + str(round(con[taxa][name])) + ")", end='')
