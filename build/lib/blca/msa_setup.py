@@ -4,13 +4,7 @@ from .helpers import *
 from Bio import SearchIO
 from Bio import SeqIO
 from Bio.Align.Applications import MuscleCommandline as muscle
-import importlib
-from importlib.machinery import SourceFileLoader
-try:
-	my_module = importlib.import_module('config')
-except:
-	this_dir, this_filename = os.path.split(__file__)
-	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
+from .helpers import my_module
 
 def get_hit_seq(fastafile, filename):
 	yamlfile = yaml_load_file(fastafile)
@@ -105,6 +99,7 @@ def run_muscle():
 	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
 	count = 1
+	print("INFO: Running MUSCLE for MSA")
 	for seqid in yamlfile:
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
@@ -114,3 +109,4 @@ def run_muscle():
 		muscle_cline = muscle(cmd=my_module.MUSCLE_BINARY, input=filename, out=outfile)()
 		#print(outfile)
 		sys.stdout.flush()
+	print("DONE: MSA complete.")
