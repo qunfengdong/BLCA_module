@@ -1,4 +1,3 @@
-import re
 from .annotate import *
 
 def getindexvalue(cols, pos):
