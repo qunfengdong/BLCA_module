@@ -4,13 +4,7 @@ import sys
 import itertools
 from .helpers import *
 from Bio import SeqIO
-import importlib
-from importlib.machinery import SourceFileLoader
-try:
-	my_module = importlib.import_module('config')
-except:
-	this_dir, this_filename = os.path.split(__file__)
-	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
+from .helpers import my_module
 
 def setup_query(seq):
 	for i in range(len(seq)):
@@ -68,6 +62,7 @@ def calculate_prob(seqsdic, query, queryseq):
 			continue
 		prob = float(scoredic[seqid]['score']) / sumscore
 		scoredic[seqid]['prob'] = prob
+	#print(scoredic)
 	return scoredic
 
 def compute_pairwise_file(alignfile, query):
@@ -132,7 +127,49 @@ def update_bootstrap(confidence, qid):
 	yaml_dump_file(data)
 
 def bootstrap_muscle_alignment_new(alignfile, query):
-	print(alignfile)
+	#print(alignfile)
+	seqsdic = {}
+	for seq in SeqIO.parse(alignfile, "fasta"):
+		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
+		seqsdic[seqid] = seq.seq
+
+	queryseq, querystart, queryend = setup_query_pos(seqsdic[query])
+	queryregion = queryend - querystart + 1
+
+	bootstrap_confidence = {}
+
+	for i in range(my_module.BOOTSTRAP):
+		bootdic = {}
+		for seqid in seqsdic:
+			bootdic[seqid] = seqsdic[seqid]
+		seqsinfo = randomizefile(bootdic, query)
+		queryseq = setup_query(seqsinfo[query])
+		s = calculate_prob(seqsinfo, query, queryseq)
+		hitid = prob_highest(s)
+		#print(hitid)
+		for hid in hitid:
+			if hid in bootstrap_confidence:
+				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
+			else:
+				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
+	#print(bootstrap_confidence)
+	update_bootstrap(bootstrap_confidence, query)
+
+
+def randomizefile(bootdic, query):
+	count = len(bootdic[query])
+	randomindex = []
+	randombootdic = {}
+	for i in range(count):
+		r = random.randrange(count)
+		randomindex.append(r)
+
+	for id in bootdic.keys():
+		seq = []
+		for i in randomindex:
+			seq.append(bootdic[id][i])
+		randombootdic[id] = ''.join(seq)
+	return randombootdic
 
 def bootstrap_muscle_alignment(alignfile, query):
 	seqsdic = {}
@@ -184,8 +221,9 @@ def compute():
 		#print(seqid)
 		sys.stdout.write("Files: %d of %d   \r" % (count, tot))
 		count += 1
-		#compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
-		bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
+		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
+		bootstrap_muscle_alignment_new("multi_" + seqid + ".fasta.maln", seqid )
+		#bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		#os.remove("multi_" + seqid + ".fasta.maln")
 		sys.stdout.flush()
 	print("DONE: BOOTSTRAP complete.")
