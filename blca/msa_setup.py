@@ -60,16 +60,19 @@ def get_hit_seq_megan(filename):
 					continue
 				if hsp.bitscore < my_module.BLAST_CUTOFF_SCORE:
 					continue
-				#print(hsp.hit)
-				#print(hsp.hit_strand)
-				#print(hsp.hit_start)
-				#print(hsp.hit_end)
+				if int(100 * hsp.ident_num/hsp.aln_span) < my_module.BLAST_CUTOFF_PERCENT:
+					continue
+				if int(100 * (float(hsp.query_end - hsp.query_start + 1)/query.seq_len)) < my_module.BLAST_COVERAGE:
+					continue
+				#print(hsp.hit, "\t", hsp.hit_strand, "\t", hsp.hit_start, "\t", hsp.hit_end, "\t", hsp.bitscore)
+				#print(hsp.query_end, "\t", hsp.query_start, "\t", query.seq_len , "\t", int(100 * (float(hsp.query_end - hsp.query_start + 1)/query.seq_len)))
 				hitstart = hsp.hit_start + 1 - 10
 				hitstart = 1 if hitstart <= 0 else hitstart
 				hitend = hsp.hit_end + 1 + 10
 				hitstrand = "plus" if (hsp.hit_strand == 1) else "minus"
 				#print(hitstart, hitend)
 				out = os.popen(my_module.BLAST_BINARY + "/blastdbcmd -db " + my_module.BLAST_DATABASE + " -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
+				#print("out", out)
 				fh.write(out)
 				#print(hsp.hit.seq)
 				#print(hsp.query.seq)

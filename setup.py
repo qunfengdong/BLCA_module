@@ -12,10 +12,14 @@ setup(name='blca',
 			author_email='kashi.mail@gmail.com',
 			license='MIT',
 			packages=['blca'],
-			data_files=[('blca', ['data/subset_gi_taxid.yaml', 'data/subset_names.yaml', 'data/subset_nodes.yaml'])],
+			data_files=[('blca', ['data/subset_gi_taxid.yaml', 'data/subset_names.yaml', 'data/subset_nodes.yaml', 'data/SILVA_123_SSURef_171_V13.subsample1.fasta'])],
 			#include_package_data=True,
 			package_data={'blca': ['data/*.yaml']},
-			scripts=['bin/runblca.py'],
+			entry_points={
+				'console_scripts': [
+					'blca = blca.__main__:main'
+				]
+			},
 			install_requires=[
 				'biopython', 'pyyaml',
 			],

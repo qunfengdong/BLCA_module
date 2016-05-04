@@ -181,8 +181,8 @@ def annotate():
 			else:
 				#print('', end='')
 				outfile.write('')
-		#print("")
-		outfile.write("\n")
+		print("")
+		outfile
 
 
 def annotate_megan_blca_rdp(filename):

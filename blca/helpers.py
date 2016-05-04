@@ -7,8 +7,9 @@ from importlib.machinery import SourceFileLoader
 try:
 	my_module = importlib.import_module('config')
 except:
-	this_dir, this_filename = os.path.split(__file__)
-	my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
+	my_module = ''
+	#this_dir, this_filename = os.path.split(__file__)
+	#my_module = SourceFileLoader("settings", this_dir + "/settings.py").load_module()
 
 def yaml_dump_file(data):
 	stream = open(my_module.FILENAME + '.yaml', 'w')
@@ -32,6 +33,8 @@ def get_gi(hit):
 
 def modify_id(id):
 	return id.replace("|", "_")
+
+
 
 
 
