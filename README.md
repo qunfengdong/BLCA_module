@@ -122,6 +122,7 @@ A text file with sequence name in the first column, taxonomy with confidence sco
 
 ### Description of each column
 If you put them in Excel, they should be in the following order.
+```
 Column A: sequence ID
 Column B: Superkingdom
 Column C: Phylum
@@ -132,6 +133,7 @@ Column G: Genus
 Column H: Species
 Column I: Subspecies
 Column J: Organism
+```
 
 ## Recommendations
 * Make sure the sequence headers in the FASTA file DO NOT have "|" (pipe) characters in them. Please change them to "_" (underscore)
