@@ -18,6 +18,8 @@ Bayesian-based LCA taxonomic classification method
 
 ## Database (required)
 * 16S Microbial database (ftp://ftp.ncbi.nlm.nih.gov/blast/db/16SMicrobial.tar.gz)
+### additional
+* additional
 
 ## Install
 Checkout the source code: https://github.com/qunfengdong/BLCA
@@ -28,12 +30,24 @@ $ python3 setup.py install
 ```
 
 ## Getting started
-Go to the working directory, save the input FASTA file and config.py file in the same folder.
+* Go to any directory or folder
+```shell
+[current_directory]$ pwd
+/path/to/current_directory
+```
+* Download and save the example input FASTA file (https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta) in the working directory.
+```shell
+[current_directory]$ wget https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta
+```
+* Download and save the example config.py file (https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py) in the same folder.
+```shell
+[current_directory]$ https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py
+```
 
 ## Config file
-Create config file "config.py" in the current folder to setup the parameters
+Description of the parameters in the config file "config.py"
 ```python
-[terminal]$ cat config.py
+[current_directory]$ cat config.py
 ##-----------------------------------------------------------
 ## Input file in FASTA format
 FILENAME = 'example_input_file.fasta'
@@ -75,7 +89,7 @@ BOOTSTRAP = 100
 
 ## Run BLCA on command line
 ```python
-[terminal]$ python3
+[current_directory]$ python3
 >>> import blca
 >>> import config
 >>> blca.execute()
@@ -90,12 +104,13 @@ blca.execute()
 
 Execute the file 'analysis.py' at the terminal
 ```python
-[terminal]$ python3 analysis.py
+[current_directory]$ python3 analysis.py
 ```
 
 ## Output
 
 ## Recommendations
+* Make sure the sequence headers in the FASTA file DO NOT have "|" (pipe) characters in them. Please change them to "_" (underscore)
 
 
 
