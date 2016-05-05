@@ -4,6 +4,13 @@ Bayesian-based LCA taxonomic classification method
 ## System Requirements
 * Python (version 3 or above)
 * Linux
+* libyaml
+
+## Python packages
+* python3-dev
+* setuptools
+* Biopython
+* pyyaml
 
 ## Additional executable files (required)
 * BLAST binary (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.3.0/)
@@ -36,7 +43,10 @@ OUTFILE = 'inputfile.annotation.txt'
 
 ## BLAST parameters
 BLAST_BINARY = 'path/to/dir/ncbi-blast-2.3.0+/bin'
-BLAST_DATABASE = 'path/to/dir/16SMicrobial'
+## Path to the actual indexed BLAST database with 16SMicrobial.n* files
+BLAST_DATABASE = 'path/to/file/16SMicrobial'
+## MUSCLE executable file
+MUSCLE_BINARY = '/path/to/bin/muscle'
 
 ## BLAST output filtering options
 ## Select hits with at least a score 100
@@ -49,7 +59,6 @@ BLAST_COVERAGE = 95
 BLAST_PERCENTAGE_IDENTITY = 95
 
 ## Mutiple sequence alignment parameters
-MUSCLE_BINARY = '/path/to/bin/muscle'
 ## Select 10 base pairs of hit sequences
 ## upstream and downstream of the alignment
 HIT_SEQUENCE_BPS = 10
@@ -72,15 +81,17 @@ BOOTSTRAP = 100
 >>> blca.execute()
 ```
 
-## Run BLCA from a file
+## Run BLCA from a file called analysis.py
 ```python
 [terminal]$ cat analysis.py
 import blca
 import config
 blca.execute()
 [terminal]$ python3 analysis.py
+```
 
 ## Output
+
 
 
 
