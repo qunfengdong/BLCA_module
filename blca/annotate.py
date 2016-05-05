@@ -180,7 +180,7 @@ def annotate():
 					outfile.write(name + " (" + str(round(con[taxa][name])) + ")")
 			else:
 				#print('', end='')
-				outfile.write('')
+				outfile.write('NA')
 		outfile.write("\n")
 		outfile
 
