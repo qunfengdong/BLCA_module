@@ -27,7 +27,11 @@ Bayesian LCA-based Taxonomic Classification Method (BLCA) is a Bayesian-based me
 * 16S Microbial database (ftp://ftp.ncbi.nlm.nih.gov/blast/db/16SMicrobial.tar.gz)
 
 ### Alternate database
-* If you intend to use customized
+* If you intend to use customized database, please make sure the sequence headers are of the format below wherein the XXXXXXX should be replaced with GI numbers. This will help us with obtaining the taxonomical classification.
+```
+>gi|XXXXXXX|gb|YYYYYYYY|
+```
+* Also format the database using BLAST suite
 
 ## Install
 Checkout the source code: https://github.com/qunfengdong/BLCA
