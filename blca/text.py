@@ -5,6 +5,7 @@ def info():
 
 def execute():
 	try:
+		blca.verify()
 		blca.blast_seq()
 		blca.setup_msa()
 		blca.run_muscle()
