@@ -125,8 +125,8 @@ Execute the file 'analysis.py' at the terminal
 ### Example output file:
 ```
 sequence_id  superkingdom	phylum	class	order	family	genus	species subspecies  organism
-seq1  F032680.1.1513 Bacteria (81)  Firmicutes (100)  Bacilli (100) Bacillales (100)  Bacillaceae (100) Bacillus (100)  Bacillus subtilis (60)  Bacillus subtilis subsp. spizizenii (43)  Bacillus subtilis subsp. spizizenii (24) 
-seq2  JF792068.1.1377 Bacteria (100)  Proteobacteria (100)  Gammaproteobacteria (100) Pseudomonadales (100) Pseudomonadaceae (100)  Pseudomonas (100) Pseudomonas mucidolens (21) Pseudomonas cedrina subsp. fulgida (6)  Pseudomonas mucidolens (21)
+seq1  Bacteria (100)  Firmicutes (100)  Bacilli (100) Bacillales (100)  Bacillaceae (100) Bacillus (100)  Bacillus subtilis (60)  Bacillus subtilis subsp. spizizenii (43)  Bacillus subtilis subsp. spizizenii (24) 
+seq2  Bacteria (100)  Proteobacteria (100)  Gammaproteobacteria (100) Pseudomonadales (100) Pseudomonadaceae (100)  Pseudomonas (100) Pseudomonas mucidolens (21) Pseudomonas cedrina subsp. fulgida (6)  Pseudomonas mucidolens (21)
 ```
 
 ### Description of each column
