@@ -36,10 +36,10 @@ Create config file "config.py" in the current folder to setup the parameters
 [terminal]$ cat config.py
 ##-----------------------------------------------------------
 ## Input file in FASTA format
-FILENAME = 'inputfile.fasta'
+FILENAME = 'example_input_file.fasta'
 
 ## Output file
-OUTFILE = 'inputfile.annotation.txt'
+OUTFILE = 'annotation_output.txt'
 
 ## BLAST parameters
 BLAST_BINARY = 'path/to/dir/ncbi-blast-2.3.0+/bin'
