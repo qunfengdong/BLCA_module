@@ -111,6 +111,27 @@ Execute the file 'analysis.py' at the terminal
 ```
 
 ## Output
+A text file with sequence name in the first column, taxonomy with confidence scores in the parentheses separated by space. Each level of taxonomy is separated by tab.
+
+### Example output file:
+```
+		superkingdom	phylum	class	order	family	genus	species	subspecies	organism
+	seq1	Bacteria (100)	Proteobacteria (93)	Gammaproteobacteria (93)	Enterobacteriales (93)	Enterobacteriaceae (93)	Pantoea (52)	Pantoea agglomerans (22)	Pantoea stewartii subsp. indologenes (0)	Pantoea agglomerans (22)
+	seq2	Bacteria (100)	Proteobacteria (100)	Gammaproteobacteria (100)	Enterobacteriales (100)	Enterobacteriaceae (100)	Escherichia (47)	Escherichia coli (24)	Cronobacter dublinensis subsp. lausannensis (1)	Escherichia coli (13)
+```
+
+### Description of each column
+If you put them in Excel, they should be in the following order.
+Column A: sequence ID
+Column B: Superkingdom
+Column C: Phylum
+Column D: Class
+Column E: Order
+Column F: Family
+Column G: Genus
+Column H: Species
+Column I: Subspecies
+Column J: Organism
 
 ## Recommendations
 * Make sure the sequence headers in the FASTA file DO NOT have "|" (pipe) characters in them. Please change them to "_" (underscore)
