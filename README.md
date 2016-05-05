@@ -1,5 +1,6 @@
 Bayesian-based LCA taxonomic classification method
 --------------------------------------------------
+Bayesian LCA-based Taxonomic Classification Method (BLCA) is a Bayesian-based method that provides a solid probabilistic basis for evaluating the taxonomic assignments for the query sequences with bootstrap confidence scores, which is based on Bayesian posterior probability that quantitatively weigh each database hit sequence according to its similarity to the query sequence - the more similar database hit sequence to the query, the more its contribution to the taxonomic assignment of the query. We implemented the above algorithm as a python3 package at https://github.com/qunfengdong/BLCA.
 
 ## System Requirements
 * Python (version 3 or above)
@@ -18,8 +19,9 @@ Bayesian-based LCA taxonomic classification method
 
 ## Database (required)
 * 16S Microbial database (ftp://ftp.ncbi.nlm.nih.gov/blast/db/16SMicrobial.tar.gz)
-### additional
-* additional
+
+## Alternate database
+* If you intend to use customized
 
 ## Install
 Checkout the source code: https://github.com/qunfengdong/BLCA
@@ -87,7 +89,8 @@ BOOTSTRAP = 100
 ##-----------------------------------------------------------
 ```
 
-## Run BLCA on command line
+## Running BLCA
+### Run BLCA on command line
 ```python
 [current_directory]$ python3
 >>> import blca
@@ -95,7 +98,7 @@ BOOTSTRAP = 100
 >>> blca.execute()
 ```
 
-## Run BLCA by creating a file called analysis.py
+### Run BLCA in a file called analysis.py.
 ```python
 import blca
 import config
@@ -112,6 +115,21 @@ Execute the file 'analysis.py' at the terminal
 ## Recommendations
 * Make sure the sequence headers in the FASTA file DO NOT have "|" (pipe) characters in them. Please change them to "_" (underscore)
 
+## Version
+* Version 0.6
+first public release
 
+## Authors
+* Dr. Xiang Gao, theoretical conception and algorithm development
+* Dr. Qunfeng Dong, algorithm development
+* Kashi Revanna, program coding and package development
+* Huaiying Lin, program coding and testing
 
+## License
+GNU
+
+## Acknowledgements
+* BLAST program: Camacho C., Coulouris G., Avagyan V., Ma N., Papadopoulos J., Bealer K., & Madden T.L. (2008) "BLAST+: architecture and applications." BMC Bioinformatics 10:421.
+* MUSCLE: Edgar, R.C. (2004) MUSCLE: multiple sequence alignment with high accuracy and high throughput.Nucleic Acids Res. 32(5):1792-1797. doi:10.1093/nar/gkh340
+* Biopython: Cock PA, Antao T, Chang JT, Bradman BA, Cox CJ, Dalke A, Friedberg I, Hamelryck T, Kauff F, Wilczynski B and de Hoon MJL (2009) Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics, 25, 1422-1423
 
