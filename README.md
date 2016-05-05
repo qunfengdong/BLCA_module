@@ -81,12 +81,15 @@ BOOTSTRAP = 100
 >>> blca.execute()
 ```
 
-## Run BLCA from a file called analysis.py
+## Run BLCA by creating a file called analysis.py
 ```python
-[terminal]$ cat analysis.py
 import blca
 import config
 blca.execute()
+```
+
+Execute the file 'analysis.py' at the terminal
+```python
 [terminal]$ python3 analysis.py
 ```
 
