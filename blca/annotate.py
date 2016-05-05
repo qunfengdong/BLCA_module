@@ -181,7 +181,7 @@ def annotate():
 			else:
 				#print('', end='')
 				outfile.write('')
-		print("")
+		outfile.write("\n")
 		outfile
 
 

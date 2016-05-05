@@ -226,7 +226,7 @@ def compute():
 		compute_pairwise_file("multi_" + seqid + ".fasta.maln", seqid )
 		bootstrap_muscle_alignment_new("multi_" + seqid + ".fasta.maln", seqid )
 		#bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
-		#os.remove("multi_" + seqid + ".fasta.maln")
+		os.remove("multi_" + seqid + ".fasta.maln")
 		sys.stdout.flush()
 	elapsed = timeit.default_timer() - start_time
 	print("DONE: BOOTSTRAP complete. (time taken: %d secs)" % int(elapsed))
