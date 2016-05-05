@@ -117,7 +117,10 @@ Execute the file 'analysis.py' at the terminal
 ```
 
 ## Output
-A text file with sequence name in the first column, taxonomy with confidence scores in the parentheses separated by space. Each level of taxonomy is separated by tab.
+* A text file with sequence id in the first column, taxonomy annotation with confidence scores in the parentheses.
+* Each taxonomy level is separated by tab.
+* If no taxonomy annotation is available, it is listed as 'NA'
+
 
 ### Example output file:
 ```
@@ -129,7 +132,7 @@ seq2	Bacteria (100)	Proteobacteria (100)	Gammaproteobacteria (100)	Enterobacteri
 ### Description of each column
 If you put them in Excel, they should be in the following order.
 ```
-Column A: sequence_d
+Column A: sequence_id
 Column B: superkingdom
 Column C: phylum
 Column D: class
