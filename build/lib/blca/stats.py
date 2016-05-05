@@ -229,6 +229,7 @@ def compute():
 		bootstrap_muscle_alignment_new(yamlfile, "multi_" + seqid + ".fasta.maln", seqid )
 		#bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		os.remove("multi_" + seqid + ".fasta.maln")
+		os.remove("multi_" + seqid + ".fasta")
 		sys.stdout.flush()
 	yaml_dump_file(yamlfile)
 	elapsed = timeit.default_timer() - start_time

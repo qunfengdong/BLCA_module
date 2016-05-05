@@ -134,7 +134,7 @@ def annotate():
 
 	outfile = open(my_module.OUTFILE, "w")
 	#print("\t" + "\t".join(reversed(order)))
-	outfile.write("\t" + "\t".join(reversed(order)) + "\n")
+	outfile.write("sequence_id\t" + "\t".join(reversed(order)) + "\n")
 	#ann = read_16s_annotation(read_names, read_nodes)
 	#megan = read_megan_output(filename)
 	#rdp = read_rdp_output(filename)
@@ -175,12 +175,14 @@ def annotate():
 			if (taxa in con) and con[taxa]:
 				#print(con[taxa])
 				name = max(con[taxa], key=lambda i: con[taxa][i])
-				if con[taxa][name] >= 0:
+				if con[taxa][name] > 0:
 					#print(name + " (" + str(round(con[taxa][name])) + ")", end='')
 					outfile.write(name + " (" + str(round(con[taxa][name])) + ")")
+				else:
+					outfile.write('NA')
 			else:
 				#print('', end='')
-				outfile.write('')
+				outfile.write('NA')
 		outfile.write("\n")
 		outfile
 
