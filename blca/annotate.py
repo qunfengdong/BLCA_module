@@ -175,9 +175,11 @@ def annotate():
 			if (taxa in con) and con[taxa]:
 				#print(con[taxa])
 				name = max(con[taxa], key=lambda i: con[taxa][i])
-				if con[taxa][name] >= 0:
+				if con[taxa][name] > 0:
 					#print(name + " (" + str(round(con[taxa][name])) + ")", end='')
 					outfile.write(name + " (" + str(round(con[taxa][name])) + ")")
+				else:
+					outfile.write('NA')
 			else:
 				#print('', end='')
 				outfile.write('NA')
