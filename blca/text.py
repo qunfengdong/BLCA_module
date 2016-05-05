@@ -6,10 +6,10 @@ def info():
 def execute():
 	try:
 		blca.verify()
-		#blca.blast_seq()
-		#blca.setup_msa()
-		#blca.run_muscle()
-		#blca.compute()
-		#blca.annotate()
+		blca.blast_seq()
+		blca.setup_msa()
+		blca.run_muscle()
+		blca.compute()
+		blca.annotate()
 	except Exception as e:
 		print("ERROR: ", e)
