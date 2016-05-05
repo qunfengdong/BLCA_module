@@ -115,9 +115,9 @@ A text file with sequence name in the first column, taxonomy with confidence sco
 
 ### Example output file:
 ```
-		superkingdom	phylum	class	order	family	genus	species	subspecies	organism
-	seq1	Bacteria (100)	Proteobacteria (93)	Gammaproteobacteria (93)	Enterobacteriales (93)	Enterobacteriaceae (93)	Pantoea (52)	Pantoea agglomerans (22)	Pantoea stewartii subsp. indologenes (0)	Pantoea agglomerans (22)
-	seq2	Bacteria (100)	Proteobacteria (100)	Gammaproteobacteria (100)	Enterobacteriales (100)	Enterobacteriaceae (100)	Escherichia (47)	Escherichia coli (24)	Cronobacter dublinensis subsp. lausannensis (1)	Escherichia coli (13)
+  superkingdom	phylum	class	order	family	genus	species	subspecies	organism
+seq1	Bacteria (100)	Proteobacteria (93)	Gammaproteobacteria (93)	Enterobacteriales (93)	Enterobacteriaceae (93)	Pantoea (52)	Pantoea agglomerans (22)	Pantoea stewartii subsp. indologenes (0)	Pantoea agglomerans (22)
+seq2	Bacteria (100)	Proteobacteria (100)	Gammaproteobacteria (100)	Enterobacteriales (100)	Enterobacteriaceae (100)	Escherichia (47)	Escherichia coli (24)	Cronobacter dublinensis subsp. lausannensis (1)	Escherichia coli (13)
 ```
 
 ### Description of each column
