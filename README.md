@@ -2,25 +2,31 @@ Bayesian-based LCA taxonomic classification method
 --------------------------------------------------
 Bayesian LCA-based Taxonomic Classification Method (BLCA) is a Bayesian-based method that provides a solid probabilistic basis for evaluating the taxonomic assignments for the query sequences with bootstrap confidence scores, which is based on Bayesian posterior probability that quantitatively weigh each database hit sequence according to its similarity to the query sequence - the more similar database hit sequence to the query, the more its contribution to the taxonomic assignment of the query. We implemented the above algorithm as a python3 package at https://github.com/qunfengdong/BLCA.
 
-## System Requirements
+## Prerequisities
+
+### System Requirements
 * Python (version 3 or above)
 * Linux
+
+### System libraries
 * libyaml
 
-## Python packages
+### Python
 * python3-dev
 * setuptools
+
+### Python packages
 * Biopython
 * pyyaml
 
-## Additional executable files (required)
+### Additional executable files (required)
 * BLAST binary (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.3.0/)
 * MUSCLE (http://www.drive5.com/muscle/downloads.htm)
 
-## Database (required)
+### Database (required)
 * 16S Microbial database (ftp://ftp.ncbi.nlm.nih.gov/blast/db/16SMicrobial.tar.gz)
 
-## Alternate database
+### Alternate database
 * If you intend to use customized
 
 ## Install
@@ -32,21 +38,17 @@ $ python3 setup.py install
 ```
 
 ## Getting started
-* Go to any directory or folder
+Go to any directory or folder, and download the example FASTA file and config file to the same folder.
+Example FASTA file is available at https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta
+Example config.py file is available at https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py
 ```shell
-[current_directory]$ pwd
+$ pwd
 /path/to/current_directory
-```
-* Download and save the example input FASTA file (https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta) in the working directory.
-```shell
-[current_directory]$ wget https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta
-```
-* Download and save the example config.py file (https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py) in the same folder.
-```shell
-[current_directory]$ https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py
+$ wget https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta
+$ https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/config.py
 ```
 
-## Config file
+### Config file
 Description of the parameters in the config file "config.py"
 ```python
 [current_directory]$ cat config.py
