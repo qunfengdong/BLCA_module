@@ -95,7 +95,7 @@ BOOTSTRAP = 100
 ##-----------------------------------------------------------
 ```
 
-## Running BLCA
+## Usage
 ### Run BLCA on command line
 ```python
 [current_directory]$ python3
