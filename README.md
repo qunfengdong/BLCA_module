@@ -41,6 +41,25 @@ $ cd BLCA
 $ python3 setup.py install
 ```
 
+## Quick start
+```python
+$ cd BLCA/example
+```
+Update the paths to BLAST executable directory, BLAST database and Muscle binary file
+```python
+BLAST_BINARY = 'path/to/dir/ncbi-blast-2.3.0+/bin'
+BLAST_DATABASE = 'path/to/file/16SMicrobial'
+MUSCLE_BINARY = '/path/to/bin/muscle'
+```
+Run BLCA
+```python
+$ python3
+>>> import blca
+>>> import config
+>>> blca.execute()
+```
+Output is stored in file called annotation_output.txt, open the file in Excel or text editor.
+
 ## Getting started
 Go to any directory or folder, and download the example FASTA file and config file to the same folder.
 Example FASTA file is available at https://raw.githubusercontent.com/qunfengdong/BLCA/master/example/example_input_file.fasta
