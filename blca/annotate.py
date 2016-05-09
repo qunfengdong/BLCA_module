@@ -117,6 +117,8 @@ def annotate():
 				outfile.write('NA')
 		outfile.write("\n")
 	outfile.close()
+	print("DONE: Species annotation.")
+	print("RESULTS: Annotations are available in the file " + my_module.OUTFILE)
 
 
 
