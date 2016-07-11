@@ -34,5 +34,9 @@ ALIGNMENT_MATCH = 1
 
 ## Bootstrap
 BOOTSTRAP = 100
+
+## Cutoff 
+CUTOFF = 0
+
 ##-----------------------------------------------------------
 
