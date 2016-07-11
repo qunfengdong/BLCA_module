@@ -7,6 +7,11 @@ from Bio import SeqIO
 from .helpers import my_module
 
 def setup_query(seq):
+	"""
+	Add # to the ends of the query sequence
+	:param seq:
+	:return: seq
+	"""
 	for i in range(len(seq)):
 		if(seq[i] != "-"):
 			break
@@ -19,6 +24,11 @@ def setup_query(seq):
 
 
 def setup_query_pos(seq):
+	"""
+	Get the position of the start and end position of the alignment
+	:param seq:
+	:return:
+	"""
 	for i in range(len(seq)):
 		if(seq[i] != "-"):
 			front = i
@@ -32,6 +42,12 @@ def setup_query_pos(seq):
 	return seq, front, back
 
 def compute_score(seq1, seq2):
+	"""
+	Get the score
+	:param seq1:
+	:param seq2:
+	:return:
+	"""
 	score = 0
 	for i in range(0,len(seq1)):
 		#print(seq1[i], seq2[i])
@@ -48,6 +64,13 @@ def compute_score(seq1, seq2):
 	return score
 
 def calculate_prob(seqsdic, query, queryseq):
+	"""
+	Calculate probability
+	:param seqsdic:
+	:param query:
+	:param queryseq:
+	:return: dic
+	"""
 	scoredic = {}
 	sumscore = 0
 	for seqid in seqsdic:
@@ -66,7 +89,13 @@ def calculate_prob(seqsdic, query, queryseq):
 	return scoredic
 
 def compute_pairwise_file(yamlfile, alignfile, query):
-	#data = yaml_load_file()
+	"""
+	Computes the score
+	:param yamlfile:
+	:param alignfile:
+	:param query:
+	:return:
+	"""
 	seqsdic = {}
 	for seq in SeqIO.parse(alignfile, "fasta"):
 		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
@@ -75,40 +104,14 @@ def compute_pairwise_file(yamlfile, alignfile, query):
 	#print(">>", seqsdic)
 	queryseq = setup_query(seqsdic[query])
 	yamlfile[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
-	#data[query]['hits'] = calculate_prob(seqsdic, query, queryseq)
-	#yaml_dump_file(data)
 
-def transpose_file(infile, outfile):
-	indata = open(infile, "r").read()
-	#lines = '\n'.join(''.join(i) for i in zip(*indata.split()))
-	lines = '\n'.join(''.join(i) for i in itertools.zip_longest(*indata.split(), fillvalue='#'))
-	fh = open(outfile, "w")
-	fh.write(lines)
-	fh.close()
-
-def randomize_file(infile, outfile, queryregion):
-	lines = open(infile).readlines()
-	fh = open(outfile, "w")
-	for i in range(queryregion):
-		r = random.randrange(queryregion)
-		#print(r)
-		fh.write(lines[r].rstrip("\r|\n") + "\n")
-	fh.write(''.join(lines[queryregion:]))
-	fh.close()
-
-def get_seqsinfo(infile, query):
-	#print(infile)
-	a = open(infile, 'r').readlines()
-	seqsdic = {}
-	for line in a:
-		line = line.rstrip("\r|\n")
-		cols = line.split("XXXXX")
-		#print("(" + cols[0] + ") (" + cols[1] + ") (" + query + ")")
-		geneid = cols[1].rstrip("#")
-		seqsdic[geneid] = cols[0]
-	return seqsdic
 
 def prob_highest(scoredic):
+	"""
+	Get the highest probability hit
+	:param scoredic:
+	:return: tophit
+	"""
 	tophit = []
 	toppro = 0
 	for hitid in scoredic:
@@ -121,12 +124,6 @@ def prob_highest(scoredic):
 			tophit = [hitid]
 			toppro = scoredic[hitid]['prob']
 	return tophit
-
-def update_bootstrap(confidence, qid):
-	data = yaml_load_file()
-	data[qid]['bootstrap'] = confidence
-	yaml_dump_file(data)
-
 
 def bootstrap_muscle_alignment_new(yamlfile, alignfile, query):
 	#print(alignfile)
@@ -156,10 +153,14 @@ def bootstrap_muscle_alignment_new(yamlfile, alignfile, query):
 				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
 	#print(bootstrap_confidence)
 	yamlfile[query]['bootstrap'] = bootstrap_confidence
-	#update_bootstrap(yamlfile, bootstrap_confidence, query)
-
 
 def randomizefile(bootdic, query):
+	"""
+	Get random sequence dic
+	:param bootdic:
+	:param query:
+	:return:
+	"""
 	count = len(bootdic[query])
 	randomindex = []
 	randombootdic = {}
@@ -174,47 +175,6 @@ def randomizefile(bootdic, query):
 		randombootdic[id] = ''.join(seq)
 	return randombootdic
 
-def bootstrap_muscle_alignment(alignfile, query):
-	seqsdic = {}
-	for seq in SeqIO.parse(alignfile, "fasta"):
-		seqid = get_gi(seq.id) if (seq.id != query) else seq.id
-		seqsdic[seqid] = seq.seq
-
-	queryseq, querystart, queryend = setup_query_pos(seqsdic[query])
-	queryregion = queryend - querystart + 1
-
-	bootstrap_confidence = {}
-
-	for i in range(my_module.BOOTSTRAP):
-		fh = open("tmp_"+str(i), "w")
-		for seqid in seqsdic:
-			fh.write(str(seqsdic[seqid][querystart:queryend+1]) + "XXXXX" + seqid.ljust(100) + "\n")
-		fh.close()
-
-		transpose_file("tmp_"+ str(i), "tmp_"+ str(i) + "_t")
-		randomize_file("tmp_"+ str(i) + "_t", "tmp_"+ str(i) + "_t_s", queryregion)
-		transpose_file("tmp_"+ str(i) + "_t_s", "tmp_"+ str(i) + "_t_s_t")
-
-		seqsinfo = get_seqsinfo("tmp_"+ str(i) + "_t_s_t", query)
-		#print(">>>", query)
-		#print(">>>", seqsinfo)
-		queryseq = setup_query(seqsinfo[query])
-		s = calculate_prob(seqsinfo, query, queryseq)
-		hitid = prob_highest(s)
-		#print(hitid)
-		for hid in hitid:
-			if hid in bootstrap_confidence:
-				bootstrap_confidence[hid] += (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
-			else:
-				bootstrap_confidence[hid] = (float(1)/len(hitid)) * (100/my_module.BOOTSTRAP)
-		os.remove("tmp_"+str(i))
-		os.remove("tmp_"+str(i) + "_t")
-		os.remove("tmp_"+str(i) + "_t_s")
-		os.remove("tmp_"+str(i) + "_t_s_t")
-		#break
-	#print(bootstrap_confidence)
-	update_bootstrap(bootstrap_confidence, query)
-
 def compute():
 	yamlfile = yaml_load_file()
 	tot = len(yamlfile.keys())
@@ -227,7 +187,6 @@ def compute():
 		count += 1
 		compute_pairwise_file(yamlfile, "multi_" + seqid + ".fasta.maln", seqid )
 		bootstrap_muscle_alignment_new(yamlfile, "multi_" + seqid + ".fasta.maln", seqid )
-		#bootstrap_muscle_alignment("multi_" + seqid + ".fasta.maln", seqid )
 		os.remove("multi_" + seqid + ".fasta.maln")
 		os.remove("multi_" + seqid + ".fasta")
 		sys.stdout.flush()

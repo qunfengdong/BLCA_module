@@ -6,37 +6,6 @@ from Bio import SeqIO
 from Bio.Align.Applications import MuscleCommandline as muscle
 from .helpers import my_module
 
-def get_hit_seq(fastafile, filename):
-	yamlfile = yaml_load_file(fastafile)
-	blout = SearchIO.parse(filename, 'blast-text')
-	for query in blout:
-		seqid = query.id.split("\n")[0]
-		#print(seqid)
-		fh = open("multi_" + seqid + ".fasta", 'a')
-		yamlfile[seqid]['hits'] = {}
-		for hit in query.hits:
-			gi = re.match(r"gi\|(.*)\|ref", hit.id).group(1)
-			yamlfile[seqid]['hits'][gi] = {}
-			#print(yamlfile[seqid]['hits'])
-			for hsp in hit.hsps:
-				#print(hsp.hit)
-				#print(hsp.hit_strand)
-				#print(hsp.hit_start)
-				#print(hsp.hit_end)
-				hitstart = hsp.hit_start + 1 - HIT_SEQUENCE_BPS
-				hitstart = 1 if hitstart < 0 else hitstart
-				hitend = hsp.hit_end + 1 + HIT_SEQUENCE_BPS
-				hitstrand = "plus" if (hsp.hit_strand == 1) else "minus"
-				#print(hsp.hit_end)
-				out = os.popen(BLAST_BINARY + "/blastdbcmd -db " + BLAST_DATABASE + " -dbtype nucl -entry " + str(gi) + " -range " + str(hitstart) + "-" + str(hitend) + " -strand " + str(hitstrand)).read()
-				fh.write(out)
-				#print(hsp.hit.seq)
-				#print(hsp.query.seq)
-				#print("-----")
-		fh.close()
-		#break
-	yaml_dump_file(fastafile, yamlfile)
-
 def get_hit_seq_megan(filename):
 	yamlfile = yaml_load_file()
 	blout = SearchIO.parse(filename, 'blast-text')
@@ -93,7 +62,6 @@ def setup_msa():
 		fh.write(str(seq.seq) + "\n")
 		fh.close()
 	yaml_dump_file(seqlist)
-	#get_hit_seq(fastafile, fastafile + ".blout")
 	get_hit_seq_megan(my_module.FILENAME + ".blastn")
 	print("DONE: MSA input files generated.")
 	#return seqs

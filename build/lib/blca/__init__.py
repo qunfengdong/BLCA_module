@@ -4,5 +4,4 @@ from .msa_setup import setup_msa
 from .msa_setup import run_muscle
 from .stats import compute
 from .annotate import annotate
-from .validate import validate
 from .verify import verify
