@@ -83,7 +83,10 @@ def calculate_prob(seqsdic, query, queryseq):
 	for seqid in seqsdic:
 		if seqid == query:
 			continue
-		prob = float(scoredic[seqid]['score']) / sumscore
+    if sumscore == 0:
+      prob = 0
+    else:
+      prob = float(scoredic[seqid]['score']) / sumscore
 		scoredic[seqid]['prob'] = prob
 	#print(scoredic)
 	return scoredic
