@@ -33,6 +33,13 @@ Bayesian LCA-based Taxonomic Classification Method (BLCA) is a Bayesian-based me
 ```
 * Also format the database using BLAST suite
 
+### Download databases
+Run the script below to donwload the taxonomy information. Note that this might take time.
+```
+cd data/scripts
+sh run.sh
+```
+
 ## Install
 Checkout the source code: https://github.com/qunfengdong/BLCA
 ```python
